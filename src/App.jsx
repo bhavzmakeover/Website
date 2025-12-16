@@ -5,6 +5,7 @@ import { Phone, MessageCircle, Instagram, MapPin, Menu, X, Scissors, Star, Heart
 const CustomStyles = () => (
   <style>
     {`
+      /* Text animation for Hero Section */
       @keyframes write-in {
           0% { clip-path: inset(0 100% 0 0); }
           100% { clip-path: inset(0 0% 0 0); }
@@ -15,6 +16,7 @@ const CustomStyles = () => (
           overflow: hidden;
       }
       
+      /* Floating background icons */
       @keyframes float {
         0%, 100% { transform: translateY(0) rotate(0deg); }
         50% { transform: translateY(-15px) rotate(2deg); }
@@ -26,7 +28,7 @@ const CustomStyles = () => (
         text-shadow: 0 0 20px rgba(198, 168, 124, 0.3);
       }
 
-      /* Service Card Hover Shine */
+      /* Service Card Hover Shine Effect */
       .service-card {
         position: relative;
         overflow: hidden;
@@ -51,23 +53,26 @@ const CustomStyles = () => (
   </style>
 );
 
+// --- INTRO OVERLAY (Replaced image-based loading with animated text) ---
 const IntroOverlay = ({ onComplete }) => {
   const [step, setStep] = useState(0); 
   useEffect(() => {
-    const timer1 = setTimeout(() => setStep(1), 800);  // Reveal Bhavzz
-    const timer2 = setTimeout(() => setStep(2), 2200); // Reveal Makeover
-    const timer3 = setTimeout(() => setStep(3), 3600); // Doors Open
+    const timer1 = setTimeout(() => setStep(1), 800);
+    const timer2 = setTimeout(() => setStep(2), 2200);
+    const timer3 = setTimeout(() => setStep(3), 3600);
     const timer4 = setTimeout(onComplete, 4200);
     return () => { clearTimeout(timer1); clearTimeout(timer2); clearTimeout(timer3); clearTimeout(timer4); };
   }, [onComplete]);
 
   return (
     <div className={`fixed inset-0 z-[100] flex items-center justify-center transition-opacity duration-1000 ${step === 3 ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+      {/* Curtain effect */}
       <div className="absolute top-0 left-0 w-1/2 h-full bg-[#FDFCF8] transition-transform duration-[1200ms] ease-in-out"
         style={{ transform: step >= 3 ? 'translateX(-100%)' : 'translateX(0%)' }} />
       <div className="absolute top-0 right-0 w-1/2 h-full bg-[#FDFCF8] transition-transform duration-[1200ms] ease-in-out"
         style={{ transform: step >= 3 ? 'translateX(100%)' : 'translateX(0%)' }} />
       
+      {/* Intro Text */}
       <div className="relative z-10 text-center px-6">
         <div className="flex flex-col items-center">
           <h1 className={`text-5xl md:text-8xl font-serif text-[#5C5552] tracking-[0.4em] transition-all duration-1000 transform ${step >= 1 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
@@ -95,7 +100,7 @@ const App = () => {
   }, []);
 
   const phoneNumber = "919876543210"; 
-  const whatsappMsg = encodeURIComponent("Hello Bhavzz Makeover, I would like to enquire about your services.");
+  const whatsappMsg = encodeURIComponent("Hello Bhavzz Makeover, I would like to enquire about your luxury services.");
 
   const scrollToSection = (id) => {
     const element = document.getElementById(id);
@@ -105,6 +110,7 @@ const App = () => {
     }
   };
 
+  // Service Data Structure
   const categories = {
     makeup: {
       label: "Makeup Artistry",
@@ -154,7 +160,7 @@ const App = () => {
         </div>
       </nav>
 
-      {/* Hero */}
+      {/* Hero Section */}
       <section id="home" className="relative min-h-screen flex items-center justify-center bg-[#F5F0EB] px-6">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-[10%] left-[5%] opacity-10 animate-sway"><Brush size={120} /></div>
@@ -162,24 +168,33 @@ const App = () => {
         </div>
 
         <div className="relative z-10 text-center max-w-5xl">
+          {/* Decorative Star Divider */}
           <div className="flex items-center justify-center gap-4 mb-8">
             <div className="h-px w-8 bg-[#C6A87C]"></div>
             <Star className="w-6 h-6 text-[#C6A87C] fill-[#C6A87C]" />
+            <Star className="w-8 h-8 text-[#C6A87C] fill-[#C6A87C]" style={{ animationDelay: '0.2s' }} />
+            <Star className="w-6 h-6 text-[#C6A87C] fill-[#C6A87C]" style={{ animationDelay: '0.4s' }} />
             <div className="h-px w-8 bg-[#C6A87C]"></div>
           </div>
-          
-          <h1 className="text-6xl sm:text-8xl md:text-9xl font-serif font-bold text-[#5C5552] leading-none hero-glow mb-8">
-            <span className="writing-text" style={{ animation: 'write-in 1.5s linear forwards 0.5s' }}>Bhavzz</span>
-            <br />
-            <span className="italic text-[#C6A87C] writing-text" style={{ animation: 'write-in 1.2s linear forwards 1.8s', fontSize: '0.85em' }}>Makeover</span>
-          </h1>
 
-          <p className="text-xl md:text-2xl text-[#8A7968] font-light mb-12 max-w-2xl mx-auto">Luxury artistry for your unforgettable moments.</p>
-          <button onClick={() => scrollToSection('contact')} className="bg-[#5C5552] text-white px-12 py-5 text-xs uppercase tracking-[0.3em] hover:bg-[#C6A87C] transition-all shadow-xl">Book Appointment</button>
+          <h2 className="text-xs md:text-sm uppercase tracking-[0.5em] mb-10 text-[#8A7968]">Premium Bridal & Party Artistry</h2>
+          
+          <div className="mb-12">
+            {!showIntro && (
+              <h1 className="text-6xl sm:text-8xl md:text-9xl font-serif font-bold text-[#5C5552] leading-none hero-glow">
+                <span className="writing-text" style={{ animation: 'write-in 1.5s linear forwards 0.3s' }}>Bhavzz</span>
+                <br />
+                <span className="italic text-[#C6A87C] writing-text" style={{ animation: 'write-in 1.2s linear forwards 1.6s', fontSize: '0.85em' }}>Makeover</span>
+              </h1>
+            )}
+          </div>
+
+          <p className="text-xl md:text-2xl text-[#8A7968] font-light mb-12 max-w-2xl mx-auto">Crafting timeless elegance for your most cherished celebrations.</p>
+          <button onClick={() => scrollToSection('contact')} className="bg-[#5C5552] text-white px-12 py-5 text-xs uppercase tracking-[0.2em] hover:bg-[#C6A87C] transition-all duration-300 shadow-lg border border-transparent hover:border-[#C6A87C]">Book Your Session</button>
         </div>
       </section>
 
-      {/* Services - Balanced Grid Alignment */}
+      {/* Services Section - Centered and Aligned */}
       <section id="services" className="py-24 px-6 bg-[#FDFCF8]">
         <div className="container mx-auto max-w-7xl">
           <div className="text-center mb-24">
@@ -196,7 +211,6 @@ const App = () => {
                 <div className="h-px flex-1 bg-[#EAE0D5] max-w-[100px]"></div>
               </div>
 
-              {/* Grid with dynamic alignment: Centered if few items, 3-column if many */}
               <div className="flex flex-wrap justify-center gap-8">
                 {group.items.map((item, idx) => (
                   <div key={idx} className="service-card group bg-[#FDFCF8] p-10 border border-[#EAE0D5] hover:border-[#C6A87C] hover:shadow-2xl transition-all duration-500 flex flex-col items-center text-center w-full sm:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.5rem)] max-w-sm">
@@ -220,12 +234,13 @@ const App = () => {
           ))}
         </div>
       </section>
-
-      {/* Contact */}
+      
+      {/* Contact Section */}
       <section id="contact" className="py-24 bg-[#E6D5C3]">
         <div className="container mx-auto px-6 text-center">
           <h2 className="text-4xl font-serif mb-12">Get In Touch</h2>
           <div className="flex flex-wrap justify-center gap-8">
+            {/* WhatsApp Button (Using Lucide Icon) */}
             <a href={`https://wa.me/${phoneNumber}?text=${whatsappMsg}`} target="_blank" rel="noreferrer" className="flex items-center gap-4 bg-white px-10 py-6 min-w-[300px] shadow-lg hover:-translate-y-1 transition-all">
               <div className="p-3 bg-[#25D366] text-white rounded-full"><MessageCircle size={24} fill="white" /></div>
               <div className="text-left">
@@ -233,6 +248,7 @@ const App = () => {
                 <p className="text-xl font-serif">WhatsApp</p>
               </div>
             </a>
+            {/* Call Button */}
             <a href={`tel:+${phoneNumber}`} className="flex items-center gap-4 bg-[#5C5552] text-white px-10 py-6 min-w-[300px] shadow-lg hover:-translate-y-1 transition-all">
               <div className="p-3 bg-white/10 rounded-full"><Phone size={24} /></div>
               <div className="text-left">
@@ -245,7 +261,7 @@ const App = () => {
         </div>
       </section>
 
-      {/* Floating Buttons */}
+      {/* Floating Buttons (Using Lucide Icons) */}
       <div className="fixed bottom-8 right-8 flex flex-col gap-4 z-40">
         <a href={`tel:+${phoneNumber}`} className="bg-[#5C5552] w-14 h-14 rounded-full text-white shadow-2xl flex items-center justify-center hover:scale-110 transition-all"><Phone size={24} /></a>
         <a href={`https://wa.me/${phoneNumber}?text=${whatsappMsg}`} target="_blank" rel="noreferrer" className="bg-[#25D366] w-14 h-14 rounded-full text-white shadow-2xl flex items-center justify-center hover:scale-110 transition-all"><MessageCircle size={28} fill="white" /></a>
